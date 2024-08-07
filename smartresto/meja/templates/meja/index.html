@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+  {% for meja in list_meja %}
+  <style>
+    .btn-kosongkan {
+      background-color: #7480ff;
+      border: 0px;
+    }
+    .btn-kosongkan:hover {
+      border: 0px;
+      border-color: blue;
+      background-color: #4753d6;
+      
+    }
+  </style>
+  <div class="container mx-auto">
+    <div class="stats shadow w-full mt-10 bg-base-200">
+        <div class="stat place-items-center bg-slate-800">
+          <div class="stat-value text-white">{{meja.nama_meja}}</div>
+        </div>
+        
+        <div class="stat place-items-center bg-slate-800">
+          <div class="text-white">Status</div>
+          <div class="stat-value text-secondary">{{meja.status}}</div>
+          {% if meja.status == 'Terisi' %}
+          <form method="POST">
+            {% csrf_token %}
+            <input name="nama_meja" type="hidden" value="{{meja.nama_meja}}">
+            <input name="status" value="Kosongkan" type="submit" class="btn-sm rounded-btn glass btn-outline btn-kosongkan"></input>
+          </form>
+          {% endif %}
+          
+        </div>
+    </div>
+  </div>
+  {% endfor %}
+    
+{% endblock %}
