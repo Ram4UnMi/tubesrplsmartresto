@@ -1,0 +1,93 @@
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="navbar shadow bg-slate-800 text-white">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle ">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+        </div>
+        {% if request.user.groups.all.0.name == 'pelayan' %}
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-700 rounded-box w-52">
+            <li><a href="{% url 'home' %}">Homepage</a></li>
+            <li><a href="{% url 'meja' %}">Meja</a></li>
+            <li><a href="{% url 'konfirmasi' %}">Konfirmasi Pesanan</a></li>
+            <li><a href="{% url 'disajikan' %}">Sajikan Pesanan</a></li>
+            </ul>
+        {% endif %}
+        {% if request.user.groups.all.0.name == 'owner' %}
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-700 rounded-box w-52">
+            <li><a href="{% url 'home' %}">Homepage</a></li>
+            <li><a href="{% url 'menu' %}">Kelola Menu</a></li>
+            </ul>
+        {% endif %}
+        {% if request.user.groups.all.0.name == 'koki' %}
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-700 rounded-box w-52">
+            <li><a href="{% url 'home' %}">Homepage</a></li>
+            <li><a href="{% url 'dimasak' %}">Pesanan</a></li>
+            </ul>
+        {% endif %}
+        {% if request.user.groups.all.0.name == 'kasir' %}
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-700 rounded-box w-52">
+            <li><a href="{% url 'home' %}">Homepage</a></li>
+            <li><a href="{% url 'pembayaran' %}">Konfirmasi Pembayaran</a></li>
+            </ul>
+        {% endif %}
+      </div>
+    </div>
+    {% if request.user.groups.all.0.name == 'meja' %}
+    <div class="navbar-center">
+      <a href="{% url 'pesan' %}" class="btn btn-ghost text-xl">smartresto</a>
+    </div>
+    {% else %}
+    <div class="navbar-center">
+      <a href="{% url 'home' %}" class="btn btn-ghost text-xl">smartresto</a>
+    </div>
+    {% endif %}
+    <div class="navbar-end">
+      
+      {% if request.user.groups.all.0.name == 'meja' %}
+      <a href="{% url 'cart' %}">
+        <div class="btn btn-ghost rounded-btn">
+          <div class="indicator mx-5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <span class="badge badge-sm indicator-item">{{cart_items_count}}</span>
+          </div>
+        </div>
+      </a>
+      {% endif %}
+     <span>Logged in as : {{user}}</span>
+     <span class="ml-4">|</span>
+      <form action="{% url 'logout' %}" method="post" >
+        {% csrf_token %}
+        <button type="submit" class="btn btn-ghost">Logout</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+const checkbox = document.querySelector('.theme-controller');
+
+checkbox.addEventListener('change', function() {
+  if (this.checked){
+    localStorage.setItem('checkBoxStatus', this.value)
+  }else{
+    localStorage.removeItem('checkBoxStatus')
+  }
+});
+
+function apllyTheme(){
+  // Ambil status checkbox dari local storage
+  const checkBoxStatus = localStorage.getItem('checkBoxStatus');
+  if(checkBoxStatus){
+    checkbox.checked = true;
+  }else{
+    checkbox.checked = false;
+  };
+};
+apllyTheme()
+
+</script>
+
+
+  

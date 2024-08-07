@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title%}Loading{% endblock %}
+{% block content %}
+<style>
+  .btn {
+    background-color: #7480ff;
+    border: 0px;
+  }
+  .btn:hover {
+    border: 0px;
+    border-color: blue;
+    background-color: #4753d6;
+    
+  }
+</style>
+<div class="hero min-h-screen">
+    <div class="hero-content text-center">
+      <div class="max-w-md  text-gray-500">
+        <h1 class="text-5xl font-bold">Selamat Datang!</h1>
+        <p class="py-6">Aplikasi ini dibuat untuk tujuan memudahkan interaksi antar karyawan melalui daring.</p>
+        <a href="{%url 'login'%}" class="btn btn-primary">Mulai</a>
+      </div>
+    </div>
+</div>
+{% endblock %}

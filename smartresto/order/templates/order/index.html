@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Pemesanan{% endblock %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% block content %}
+<div class=" container min-h-screen grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-5 ">
+    {% for menu in list_menu %}
+    <form method="POST">
+      {% csrf_token %}
+      <div class="card card-compact mx-auto bg-slate-800 text-white shadow-xl">
+
+        <figure class="mt-2"><img width="50" height="50" src="https://img.icons8.com/ios-filled/50/FFFFFF/restaurant-menu.png" alt="restaurant-menu"/></figure>
+        <div class="card-body">
+          <h2 class="card-title">{{ menu.name }}</h2>
+          <p>Harga</p>
+          Rp. {{ menu.price }}
+          <input type="hidden" name="user" value="{{user}}">
+          <input type="hidden" name="id" value="{{menu.id}}">
+          <input style="width: 50px;" type="number" value="1" name="quantity" min="1" class="input text-black input-bordered">
+          <div class="card-actions justify-end">
+            <button type="submit" class="btn btn-primary">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+  
+{% endblock %}

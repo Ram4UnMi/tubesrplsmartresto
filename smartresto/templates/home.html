@@ -1,0 +1,81 @@
+{% extends 'base.html'%}
+{% block title %}Home{% endblock %}
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+{% block content %}
+<style>
+  .btn-pesan {
+    background-color: #7480ff;
+    border: 0px;
+  }
+  .btn-pesan:hover {
+    border: 0px;
+    border-color: blue;
+    background-color: #4753d6;
+    
+  }
+</style>
+    {% if request.user.groups.all.0.name == 'koki' %}
+    <div class="container min-h-screen mx-auto ">
+      <div class="stats shadow mt-20 mx-10">
+        <div class="stat bg-slate-800 text-white">
+          <div class="text-xl font-bold text-white">Pesanan Perlu Dimasak</div>
+          <div class="stat-value text-white">{{pesanan_perlu_dimasak}}</div>
+        </div>
+      </div>
+    </div>
+    {% elif request.user.groups.all.0.name == 'kasir' %}
+    <div class="container min-h-screen mx-auto">
+      <div class="flex justify-center w-full bg-slate-700 shadow mt-20">
+        <div class="stat text-white text-center">
+          <div class="text-white">Pesanan Belum Dibayar</div>
+          <div class="stat-value">{{pesanan_belum_dibayar}}</div>
+        </div>
+      </div>
+    </div>
+    {% elif request.user.groups.all.0.name == 'owner' %}
+    <div class="container min-h-screen">
+        <div class="mt-20 text-9xl text-white grid place-content-center">Owner</div>
+    </div>
+
+
+    {% elif request.user.groups.all.0.name == 'pelayan' %}
+    <div class="container min-h-screen mx-auto">
+      <div class="stats stats-vertical lg:stats-horizontal shadow w-full mt-20 ">
+    
+          <div class="stat bg-slate-800">
+            <div class="stat-title badge badge-secondary">Pesanan Belum di Konfirmasi</div>
+            <div class="stat-value text-white">{{pesanan_belum_terkonfirmasi}}</div>
+          </div>
+          
+          <div class="stat bg-slate-800">
+            <div class="stat-title badge badge-primary">Meja Kosong</div>
+            <div class="stat-value text-white">{{meja_kosong}}</div>
+          </div>
+          
+          <div class="stat bg-slate-800">
+            <div class="stat-title badge badge-primary">Pesanan Siap di Sajikan</div>
+            <div class="stat-value text-white">{{pesanan_siap_disajikan}}</div>
+          </div>
+          
+        </div>
+    </div>
+
+    {% elif request.user.groups.all.0.name == 'meja' %}
+    <div class="hero min-h-screen ">
+      <div class="hero-content text-center">
+        <div class="max-w-md text-white">
+          <h1 class="text-5xl font-bold">Selamat Datang!</h1>
+          <p class="py-6">Silahkan memilih menu yang sudah tersedia, pelayan akan tau tanpa harus dipanggil! ^_^</p>
+          <form method="POST">
+            {% csrf_token %}
+            <input name="nama_meja" type="hidden" value="{{user}}">
+            <input type="submit" name="status" value="Pesan" class="btn btn-pesan "></input>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

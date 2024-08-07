@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Pemesanan{% endblock %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% block content %}
+<style>
+  .btn-selesai {
+    background-color: #7480ff;
+    border: 0px;
+  }
+  .btn-selesai:hover {
+    border: 0px;
+    background-color: #4753d6;
+    
+  }
+</style>
+<div class="m-10">
+    <!-- Open the modal using ID.showModal() method -->
+    <button class="btn btn-selesai glass " onclick="my_modal_1.showModal()">Tambah</button>
+    <dialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="tambah">
+            <h3 class="font-bold text-lg">Tambah Menu!</h3>
+            <label class="m-10 input input-bordered flex items-center gap-2">
+                Nama
+                <input name="name" type="text" class="grow" placeholder="Nama Menu" />
+            </label>
+            <label class="m-10 input input-bordered flex items-center gap-2">
+                Harga
+                <input name="price" type="number" class="grow " placeholder="Rp. " />
+            </label>
+            <div class="modal-action">
+                <button type="submit" class="btn">Tambah</button>
+            </div>
+        </form>
+    </div>
+    </dialog>
+</div>
+<div class="container min-h-screen grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-5 ">
+    {% for menu in list_menu %}
+    <form method="POST">
+      {% csrf_token %}
+      <div class="card card-compact mx-auto bg-slate-800 shadow-xl text-white">
+        <!-- <figure><img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure> -->
+        <div class="card-body">
+          <h2 class="card-title">{{ menu.name }}</h2>
+          <p>Harga</p>
+          <input type="hidden" name="id" value="{{menu.id}}">
+          <input name="price" class="input input-bordered text-black" style="width: 100px;" type="number" min="0" value="{{menu.price}}">
+          <div class="card-actions justify-end">
+            <input type="hidden" name="update">
+            <input value="Update" type="submit" class="btn btn-primary" name="type"></input>
+            <input value="Delete" type="submit" class="btn btn-error" name="type"></input>
+          </div>
+        </div>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+  
+{% endblock %}

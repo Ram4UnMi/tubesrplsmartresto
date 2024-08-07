@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Cart{% endblock %}
+{% block navbar %}{% include 'navbar.html' %}{% endblock %}
+{% block content %}
+{% if list_pembayaran %}
+<style>
+    .btn-selesai {
+      background-color: #7480ff;
+      border: 0px;
+    }
+    .btn-selesai:hover {
+      border: 0px;
+      background-color: #4753d6;
+      
+    }
+  </style>
+    <div class="overflow-x-auto container min-h-screen m-10 mx-auto">
+        <table class="table text-white">
+        <!-- head -->
+        <thead>
+            <tr class="text-white">
+            <th>Meja</th>
+            <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- row 1 -->
+            {% for pembayaran in list_pembayaran %}
+            <tr>
+            <form method="POST">
+                {% csrf_token %}
+                <td>{{pembayaran.user}}</td>
+                <td>Rp. {{pembayaran.total}}</td>
+                <input type="hidden" value="{{pembayaran.id}}" name="id">
+                <input type="hidden" value="{{pembayaran.user}}" name="user">
+                <td><button type="submit" class="btn-sm rounded-btn glass btn-outline btn-selesai">Konfirmasi</button></td>
+            </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+{% else %}
+<div class="container min-h-screen">
+    <center>
+        <div class="toast toast-center toast-middle">
+            <div class="alert bg-error">
+              <h1>Tidak Ada Pesanan</h1>
+            </div>
+    </center>
+    </div>
+{% endif %}
+{% endblock %}

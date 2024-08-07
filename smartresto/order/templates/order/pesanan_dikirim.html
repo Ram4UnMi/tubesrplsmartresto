@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title%}Dimasak{% endblock %}
+{% block navbar%}{% include 'navbar.html' %}{% endblock %}
+{% block content%}
+<div  class="container  mt-10 mx-auto"></div>
+{% if order_items %}
+    {% for item in order_items %}
+    <style>
+        .btn-selesai {
+          background-color: #7480ff;
+          border: 0px;
+        }
+        .btn-selesai:hover {
+          border: 0px;
+          background-color: #4753d6;
+          
+        }
+      </style>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{item.id}}">
+        <input type="hidden" name="meja" value="{{item.user}}">
+        <div class="container min-h-screen mb-10 w-1/2 mx-auto">
+            <button class="btn btn-secondary">
+                {{item.user}}
+            </button>
+            <table class="table-sm table text-white " style="width: 700px;">
+            <tr>
+                <th>Nama Barang</th>
+                <th>Quantity</th>
+            </tr>
+                {% for item in item.order_details %}
+                    <tr>
+                    <td>{{ item.nama_barang }}</td>
+                    <td>{{ item.quantity }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <button type="submit" class="btn btn-selesai glass">Selesai</button>
+        </div>
+    </form>
+    {% endfor %}
+    </div>
+{% else %}
+<div class="container min-h-screen">
+    <center>
+        <div class="toast toast-center toast-middle">
+            <div class="alert bg-error">
+              <h1>Tidak Ada Pesanan</h1>
+            </div>
+    </center>
+    </div>
+{% endif %}
+{% endblock %}

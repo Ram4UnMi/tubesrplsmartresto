@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Cart{% endblock %}
+{% block navbar %}{% include 'navbar.html' %}{% endblock %}
+{% block content %}
+<style>
+  .btn-checkout {
+    background-color: #7480ff;
+    border: 0px;
+  }
+  .btn-checkout:hover {
+    border: 0px;
+    border-color: blue;
+    background-color: #4753d6;
+    
+  }
+</style>
+<div class="overflow-x-auto container min-h-screen m-10 mx-auto text-white">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr class="text-white font-bold">
+          <th>Item</th>
+          <th>Jumlah</th>
+          <th>Harga</th>
+          <th>Sub Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+         {% for item in cart_items %}
+        <tr>
+        <form method="POST">
+            {% csrf_token %}
+            <td>{{item.items}}</td>
+            <td>{{item.quantity}}</td>
+            <td>Rp. {{item.price}}</td> 
+            <td>Rp. <span>{{ item.sub_total }}</span></td>
+            <input type="hidden" value="{{item.items}}" name="items">
+            <td><button type="submit" class="btn-sm rounded-btn glass btn-outline btn-error">Hapus</button></td>
+        </form>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3">Total</td>
+            <td>Rp. {{total}}</td>
+            <td>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input value="CheckOut" class="btn-sm rounded-btn glass btn-outline text-black btn-checkout" type="submit"></input>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+    </table>
+  </div>
+{% for item in cart_items %}
+    
+{% endfor %}
+{% endblock %}
